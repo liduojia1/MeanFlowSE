@@ -6,7 +6,7 @@
     ![MEANFLOWSE](./MeanFlowSE.png)
 
 * 📝 **Paper**: *Under review.* **arXiv link coming soon.**
-* 🧰 **Pretrained weights**: *Coming soon (Google Drive link to be added here).*
+* 🧰 **Model weights**: *Coming soon (Google Drive link to be added here).*
 * 🎧 **Demo**: demo page coming soon.
 
 ---
