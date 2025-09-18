@@ -1,6 +1,6 @@
 # MeanFlowSE — One-Step Generative Speech Enhancement
 
-**MeanFlowSE** is a conditional generative approach for speech enhancement that learns **average velocities** over short time spans and enables **single-step (1-NFE)** inference with a simple displacement update. No teacher models or distillation are required. A few-step variant is also supported for extra quality.
+**MeanFlowSE** is a conditional generative approach for speech enhancement that learns **average velocities** over short time spans and enables **single-step (1-NFE)** inference with a simple displacement update. No teacher models or distillation are required.
 
 * **MEANFLOWSE: ONE-STEP GENERATIVE SPEECH ENHANCEMENT VIA CONDITIONAL MEAN FLOW**
     ![MEANFLOWSE](./MeanFlowSE.png)
