@@ -1,6 +1,7 @@
 # MeanFlowSE — One‑Step Generative Speech Enhancement
 
 > **MeanFlowSE** is a conditional generative model that learns **average velocity** over finite time spans and enables **single‑step (1‑NFE) inference** for speech enhancement—no teacher models or distillation required. The method instantiates the Mean Flow identity with a **Jacobian–vector product (JVP)** objective while remaining **exactly consistent** with conditional flow matching on the diagonal. See the paper for details and results.&#x20;
+![Uploading image.png…]()
 
 ---
 
