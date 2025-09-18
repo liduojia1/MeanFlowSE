@@ -14,13 +14,13 @@ set -euo pipefail
 #############################
 
 # 【A】数据与输出
-TEST_DATA_DIR="${TEST_DATA_DIR:-/xmudata/djli/se/flowmse/flowmse/vbd}"        # 必须包含 test/{clean,noisy}
-OUTPUT_ROOT="${OUTPUT_ROOT:-/xmudata/djli/se/IMP/V3/flowmse-main/flowmse/exp/enhanced}"
+TEST_DATA_DIR="${TEST_DATA_DIR:-}"        # 必须包含 test/{clean,noisy}
+OUTPUT_ROOT="${OUTPUT_ROOT:-}"
 
 # 【B】检查点：可填“文件”或“目录”
 # - 若是 .ckpt 文件，直接使用；
 # - 若是 checkpoints 目录，脚本会自动在其中按 `pesq=`（其次 `si_sdr=`）挑选最佳；再不行回退到最后一次 `*last*.ckpt`。
-CKPT_INPUT="${CKPT_INPUT:-/xmudata/djli/se/IMP/V3/flowmse-main/flowmse/scripts/lightning_logs/dataset_vbd_20250820201626/version_0/checkpoints/epoch=139_pesq=2.69.ckpt}"
+CKPT_INPUT="${CKPT_INPUT:-}"
 
 # 【C】默认推理模式与步数
 #   MODE=multistep      -> Euler（瞬时场）
