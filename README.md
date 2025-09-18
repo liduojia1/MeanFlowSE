@@ -82,8 +82,6 @@ MeanFLowSE/
 python -m venv .venv && source .venv/bin/activate
 
 pip install -r requirements.txt
-# or install main deps
-pip install torch torchaudio pytorch-lightning torch-ema soundfile pesq pystoi tqdm numpy scipy
 ```
 
 > **Note**: Use a recent PyTorch + CUDA build for multi‑GPU training.
@@ -126,7 +124,7 @@ sh train_vbd.sh
 ## Inference
 
 `evaluate.py` performs enhancement and **writes only the enhanced .wav files**. It will **auto‑pick** the sampler if not specified: `euler_mf` (displacement) when the model was trained with MF‑SE, otherwise `euler` (instantaneous).
-
+sh run_inference.sh
 
 ## Key configuration knobs
 
@@ -142,14 +140,6 @@ sh train_vbd.sh
 ## Results (summary)
 
 On VoiceBank–DEMAND, **1‑step** MeanFlowSE attains strong intelligibility and fidelity with **lowest real‑time factor**, surpassing or matching multi‑step flows/diffusion under identical front‑end and normalization; see paper Tables/Figures for full metrics (ESTOI, SI‑SDR, DNSMOS, SpkSim, RTF).&#x20;
-
----
-
-
-
-## License
-
-This project is released under the **MIT License** (see `LICENSE`).
 
 ---
 
