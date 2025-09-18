@@ -6,7 +6,6 @@
     ![MEANFLOWSE](./MeanFlowSE.png)
 
 * 📝 **Paper**: *Under review.* **arXiv link coming soon.**
-* 🧰 **Model weights**: *Coming soon (Google Drive link to be added here).*
 * 🎧 **Demo**: demo page coming soon.
 
 ---
@@ -26,7 +25,7 @@
 * [Built upon & related work](#built-upon--related-work)
 * [Pretrained models](#pretrained-models)
 * [Acknowledgments](#acknowledgments)
-* [License & citation](#license--citation)
+* [Citation](#citation)
 
 ---
 
@@ -215,9 +214,8 @@ We gratefully acknowledge **Prof. Xie Chen’s group (X-LANCE Lab, SJTU)** for t
 
 ---
 
-## License & citation
+## Citation
 
-* **License:** 
 * **Citation:** The paper is currently under review. We will add a BibTeX entry and arXiv link once available.
 
 ---
