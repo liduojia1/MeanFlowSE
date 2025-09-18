@@ -43,7 +43,7 @@
 * **Training** with Average field supervision (for the 1-step displacement sampler).
 * **Inference** with  euler_mf — single-step displacement along average field.
 * **Audio front-end**: complex STFT pipeline; configurable transforms & normalization.
-* **Metrics**: PESQ, ESTOI, SI-SDR; end-to-end **RTF** measurement (includes STFT/ISTFT).
+* **Metrics**: PESQ, ESTOI, SI-SDR; end-to-end **RTF** measurement.
 
 ---
 
