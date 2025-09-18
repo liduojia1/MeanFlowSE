@@ -40,14 +40,8 @@
 
 ## What’s inside
 
-* **Training** with two coordinated branches:
-
-  * *Instantaneous field* (CFM-style) supervision.
-  * *Average field* supervision (for the 1-step displacement sampler).
-* **Inference** with two solvers:
-
-  * `euler` — standard multi-step along instantaneous field.
-  * `euler_mf` — single-/few-step displacement along average field.
+* **Training** with Average field supervision (for the 1-step displacement sampler).
+* **Inference** with  euler_mf — single-/few-step displacement along average field.
 * **Audio front-end**: complex STFT pipeline; configurable transforms & normalization.
 * **Metrics**: PESQ, ESTOI, SI-SDR; end-to-end **RTF** measurement (includes STFT/ISTFT).
 
