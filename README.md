@@ -210,7 +210,7 @@ We gratefully acknowledge **Prof. Xie Chen’s group (X-LANCE Lab, SJTU)** for t
 
 ## Citation
 
-* **Citation:** The paper is currently under review. We will add a BibTeX entry and arXiv link once available.
+* **Citation:** The paper is currently under review. We will add a BibTeX entry and article link once available.
 
 ---
 
