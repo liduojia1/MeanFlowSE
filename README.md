@@ -31,9 +31,9 @@
 
 ## Highlights
 
-* **1-step inference (Euler-MF):** replace multi-step ODE integration with one backward-in-time displacement.
-* **Teacher-free training:** local objective using JVP; still consistent with conditional flow matching on the diagonal.
-* **Few-step refinement:** optional multi-step mode (Euler-style) for higher quality at small extra cost.
+* **One-step enhancement (1-NFE):** A single displacement update replaces long ODE rollouts—fast enough for real-time use on standard GPUs/CPUs.
+* **No teachers, no distillation:** Trains with a local, JVP-based objective; on the diagonal it exactly matches conditional flow matching.
+* **Same model, two samplers:** Use the displacement sampler for 1-step (or few-step) inference; fall back to Euler along the instantaneous field if you prefer multi-step.
 * **Competitive & fast:** strong ESTOI / SI-SDR / DNSMOS with **very low RTF** on VoiceBank-DEMAND.
 
 ---
@@ -41,7 +41,7 @@
 ## What’s inside
 
 * **Training** with Average field supervision (for the 1-step displacement sampler).
-* **Inference** with  euler_mf — single-/few-step displacement along average field.
+* **Inference** with  euler_mf — single-step displacement along average field.
 * **Audio front-end**: complex STFT pipeline; configurable transforms & normalization.
 * **Metrics**: PESQ, ESTOI, SI-SDR; end-to-end **RTF** measurement (includes STFT/ISTFT).
 
