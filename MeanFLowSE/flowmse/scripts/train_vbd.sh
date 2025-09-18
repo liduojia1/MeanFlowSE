@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DATA_DIR="/xmudata/djli/se/flowmse/flowmse/vbd"   # VB-DMD 根目录（需包含 train/valid/test 子目录及 clean/noisy 结构）
+DATA_DIR=""   # VB-DMD 根目录（需包含 train/valid/test 子目录及 clean/noisy 结构）
 NPROC=4                                           
 BATCH_PER_GPU=2                                   
 LOG_DIR="lightning_logs"                           
