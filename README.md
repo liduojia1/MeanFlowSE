@@ -1,9 +1,9 @@
-<img width="1917" height="480" alt="image" src="https://github.com/user-attachments/assets/fc035de1-2cee-4131-bc12-731a80f9a9df" /># MeanFlowSE — One-Step Generative Speech Enhancement
+# MeanFlowSE — One-Step Generative Speech Enhancement
 
 > **MeanFlowSE** is a conditional generative approach for speech enhancement that learns **average velocities** over short time spans and enables **single-step (1-NFE)** inference with a simple displacement update. No teacher models or distillation are required. A few-step variant is also supported for extra quality.
 
 * **MEANFLOWSE: ONE-STEP GENERATIVE SPEECH ENHANCEMENT VIA CONDITIONAL MEAN FLOW**
-    ![MEANFLOWSE](./MEANFLOWSE.png)
+    ![MEANFLOWSE](./MeanFlowSE.png)
 
 * 📝 **Paper**: *Under review.* **arXiv link coming soon.**
 * 🧰 **Pretrained weights**: *Coming soon (Google Drive link to be added here).*
@@ -211,7 +211,7 @@ Many design choices (complex STFT pipeline, training infrastructure) are inspire
 
 ## Acknowledgments
 
-We gratefully acknowledge **Prof. Xie Chen’s group (X-LANCE Lab, Shanghai Jiao Tong University)** for their **valuable guidance and support** on training practices and engineering tips that helped this work a lot.
+We gratefully acknowledge **Prof. Xie Chen’s group (X-LANCE Lab, SJTU)** for their **valuable guidance and support** on training practices and engineering tips that helped this work a lot.
 
 ---
 
