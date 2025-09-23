@@ -6,6 +6,7 @@
     ![MEANFLOWSE](./MeanFlowSE.png)
 
 * 📝 **Paper**: *Under review.* **arXiv link [arXiv](https://arxiv.org/abs/2509.14858).**
+* 📝 **HuggingFace**: **HuggingFace link [HuggingFace](https://huggingface.co/liduojia/MeanFlowSE)).**
 * 🎧 **Demo**: demo page coming soon.
 
 ---
@@ -198,7 +199,7 @@ Many design choices (complex STFT pipeline, training infrastructure) are inspire
 
 ## Pretrained models
 
-* **VoiceBank–DEMAND (16 kHz)**: *Coming soon* — we will host weights on Google Drive and add the link here, along with the exact config used to reproduce the reported numbers.
+* **VoiceBank–DEMAND (16 kHz)**: We have hosted the weight files on Google Drive and added the link here.— [Google Drive Link](https://drive.google.com/file/d/1QAxgd5BWrxiNi0q2qD3n1Xcv6bW0X86-/view?usp=sharing)
 
 ---
 
