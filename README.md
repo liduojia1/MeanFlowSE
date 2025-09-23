@@ -6,7 +6,7 @@
     ![MEANFLOWSE](./MeanFlowSE.png)
 
 * 📝 **Paper**: *Under review.* **arXiv link [arXiv](https://arxiv.org/abs/2509.14858).**
-* 📝 **HuggingFace**: **HuggingFace link [HuggingFace](https://huggingface.co/liduojia/MeanFlowSE)).**
+* 📝 **HuggingFace**: **HuggingFace link [HuggingFace](https://huggingface.co/liduojia/MeanFlowSE).**
 * 🎧 **Demo**: demo page coming soon.
 
 ---
