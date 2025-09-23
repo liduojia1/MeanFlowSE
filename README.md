@@ -1,4 +1,13 @@
-# MeanFlowSE — One-Step Generative Speech Enhancement
+<div align="center">
+<p align="center">
+  <h1>MeanFlowSE — One-Step Generative Speech Enhancement</h1>
+
+  [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2509.14858)
+  [![Hugging Face Model](https://img.shields.io/badge/Model-HuggingFace-yellow?logo=huggingface)](https://huggingface.co/liduojia/MeanFlowSE)
+
+
+</p>
+</div>
 
 **MeanFlowSE** is a conditional generative approach to speech enhancement that learns average velocities over short time spans and performs enhancement in a single step. Instead of rolling out a long ODE trajectory, it applies one backward-in-time displacement directly in the complex STFT domain, delivering competitive quality at a fraction of the compute and latency. The model is trained end-to-end with a local JVP-based objective and remains consistent with conditional flow matching on the diagonal—no teacher models, schedulers, or distillation required. In practice, 1-NFE inference makes real-time deployment on standard hardware straightforward.
 
