@@ -1,108 +1,108 @@
-<div align="center">
-<p align="center">
-  <h1>MeanFlowSE — One-Step Generative Speech Enhancement</h1>
-
-  [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2509.14858)
-  [![Hugging Face Model](https://img.shields.io/badge/Model-HuggingFace-yellow?logo=huggingface)](https://huggingface.co/liduojia/MeanFlowSE)
+<div align="center"> <h1>MeanFlowSE · One-Step Generative Speech Enhancement</h1> <p>   <a href="https://arxiv.org/abs/2509.14858">     <img alt="Paper" src="https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white">   </a>   <a href="https://huggingface.co/liduojia/MeanFlowSE">     <img alt="HF Model" src="https://img.shields.io/badge/Model-HuggingFace-yellow?logo=huggingface">   </a> </p>
 
 
-</p>
 </div>
 
-**MeanFlowSE** is a conditional generative approach to speech enhancement that learns average velocities over short time spans and performs enhancement in a single step. Instead of rolling out a long ODE trajectory, it applies one backward-in-time displacement directly in the complex STFT domain, delivering competitive quality at a fraction of the compute and latency. The model is trained end-to-end with a local JVP-based objective and remains consistent with conditional flow matching on the diagonal—no teacher models, schedulers, or distillation required. In practice, 1-NFE inference makes real-time deployment on standard hardware straightforward.
 
-![MEANFLOWSE](MeanFlowSE.png)
 
-* 🎧 **Demo**: demo page coming soon.
----
+**MeanFlowSE** is a conditional generative approach to speech enhancement. It learns **average velocities over short time spans** and performs enhancement with a **single backward-in-time displacement** (1-NFE), avoiding long ODE rollouts. The training objective is local (JVP-based) and **matches conditional flow matching on the diagonal (r = t)**—no teacher models, schedulers, or distillation required. In practice, 1-NFE inference makes real-time or near-real-time deployment straightforward on standard hardware.
 
-## Table of Contents
+![MeanFlowSE](MeanFlowSE.png)
 
-* [Highlights](#highlights)
-* [What’s inside](#whats-inside)
-* [Quick start](#quick-start)
+------
 
-  * [Installation](#installation)
-  * [Data preparation](#data-preparation)
-  * [Training](#training)
-  * [Inference](#inference)
-* [Configuration](#configuration)
-* [Repository structure](#repository-structure)
-* [Built upon & related work](#built-upon--related-work)
-* [Pretrained models](#pretrained-models)
-* [Acknowledgments](#acknowledgments)
-* [Citation](#citation)
+## 🎧 Demos
 
----
+- Online demo: **coming soon**
+- See **🧰 Pretrained Models** below for ready-to-use weights
 
-## Highlights
+------
 
-* **One-step enhancement (1-NFE):** A single displacement update replaces long ODE rollouts—fast enough for real-time use on standard GPUs/CPUs.
-* **No teachers, no distillation:** Trains with a local, JVP-based objective; on the diagonal it exactly matches conditional flow matching.
-* **Same model, two samplers:** Use the displacement sampler for 1-step (or few-step) inference; fall back to Euler along the instantaneous field if you prefer multi-step.
-* **Competitive & fast:** strong ESTOI / SI-SDR / DNSMOS with **very low RTF** on VoiceBank-DEMAND.
+## 🗂️ Table of Contents
 
----
+- [✨ Highlights](#-highlights)
+- [🔎 What’s Inside](#-whats-inside)
+- [⚡ Quick Start](#-quick-start)
+  - [Installation](#installation)
+  - [Data Preparation](#data-preparation)
+  - [Training](#training)
+  - [Inference](#inference)
+- [🛠️ Configuration](#️-configuration)
+- [🏗️ Repository Structure](#️-repository-structure)
+- [🧰 Pretrained Models](#-pretrained-models)
+- [📚 Built Upon & Related Work](#-built-upon--related-work)
+- [🙏 Acknowledgments](#-acknowledgments)
+- [📝 Citation](#-citation)
 
-## What’s inside
+------
 
-* **Training** with Average field supervision (for the 1-step displacement sampler).
-* **Inference** with  euler_mf — single-step displacement along average field.
-* **Audio front-end**: complex STFT pipeline; configurable transforms & normalization.
-* **Metrics**: PESQ, ESTOI, SI-SDR; end-to-end **RTF** measurement.
+## ✨ Highlights
 
----
+- **One-step enhancement (1-NFE):** A single **displacement** replaces long ODE trajectories—suitable for real-time scenarios on CPUs/GPUs.
+- **No teachers, no distillation:** Local JVP-based training; exactly matches conditional flow matching when r=t.
+- **Two samplers, one model:**
+  - `euler_mf` → **average-field displacement** (one-step/few-step; recommended)
+  - `euler` → **instantaneous-field Euler** (multi-step fallback for ablations)
+- **End-to-end front-end:** Complex STFT pipeline; metrics include **PESQ / ESTOI / SI-SDR / DNSMOS / RTF**.
 
-## Quick start
+------
+
+## 🔎 What’s Inside
+
+- **Training:** Supervision from the **average velocity field** (1-step displacement sampler), with JVP for stability; when r=t the objective reduces to standard conditional flow matching.
+- **Inference:** `euler_mf` for one-step displacement; `euler` for multi-step Euler along the instantaneous field.
+- **Audio front-end:** Complex STFT with configurable transforms and normalization.
+- **Metrics:** PESQ, ESTOI, SI-SDR, DNSMOS, and end-to-end **RTF** measurement.
+
+------
+
+## ⚡ Quick Start
 
 ### Installation
 
-```bash
+```
 # Python 3.10 recommended
-
 pip install -r requirements.txt
-# Use a recent PyTorch + CUDA build for multi-GPU training
+# Install a recent PyTorch + CUDA build compatible with your GPUs if you train multi-GPU
 ```
 
-### Data preparation
+### Data Preparation
 
-Expected layout:
+Expected layout (defaults assume 16 kHz, centered frames, Hann windows, complex STFT):
 
 ```
 <BASE_DIR>/
-  train/clean/*.wav   train/noisy/*.wav
-  valid/clean/*.wav   valid/noisy/*.wav
-  test/clean/*.wav    test/noisy/*.wav
+  train/clean/*.wav
+  train/noisy/*.wav
+  valid/clean/*.wav
+  valid/noisy/*.wav
+  test/clean/*.wav
+  test/noisy/*.wav
 ```
 
-Defaults assume 16 kHz audio, centered frames, Hann windows, and a complex STFT representation (see `SpecsDataModule` for knobs).
 
 ### Training
 
-**Single machine, multi-GPU (DDP)**:
+**Single machine, multi-GPU (DDP)**
 
-```bash
-# Edit DATA_DIR and GPUs inside the script if needed
-bash train_vbd.sh
+```
+# Edit DATA_DIR and GPU count inside the script if needed
+bash scripts/train_vbd.sh
 ```
 
-Or run directly:
+**Or run directly**
 
-```bash
+```
 torchrun --standalone --nproc_per_node=4 train.py \
   --backbone ncsnpp \
   --ode flowmatching \
   --base_dir <BASE_DIR> \
-  --batch_size 2 \
-  --num_workers 8 \
-  --max_epochs 150 \
-  --precision 32 \
-  --gradient_clip_val 1.0 \
+  --batch_size 2 --num_workers 8 \
+  --max_epochs 150 --precision 32 --gradient_clip_val 1.0 \
   --t_eps 0.03 --T_rev 1.0 \
   --sigma_min 0.0 --sigma_max 0.487 \
   --use_mfse \
-  --mf_weight_final 0.25 \
-  --mf_warmup_frac 0.5 \
+  --mf_weight_final 0.25 --mf_warmup_frac 0.5 \
   --mf_delta_gamma_start 8.0 --mf_delta_gamma_end 1.0 \
   --mf_delta_warmup_frac 0.7 \
   --mf_r_equals_t_prob 0.1 \
@@ -113,14 +113,14 @@ torchrun --standalone --nproc_per_node=4 train.py \
   --default_root_dir lightning_logs
 ```
 
-* **Logging & checkpoints** live under `lightning_logs/<exp_name>/version_x/`.
-* Heavy validation (PESQ/ESTOI/SI-SDR) runs **every N epochs** on **rank-0**; placeholders are logged otherwise so checkpoint monitors remain valid.
+- Logs & checkpoints under `lightning_logs/<exp_name>/version_x/`.
+- Heavy validation (PESQ/ESTOI/SI-SDR) runs **periodically on rank-0**; other ranks log placeholders so checkpoint monitors remain consistent.
 
 ### Inference
 
-Use the helper script:
+**Convenience script**
 
-```bash
+```
 # MODE = multistep | multistep_mf | onestep
 MODE=onestep STEPS=1 \
 TEST_DATA_DIR=<BASE_DIR> \
@@ -128,9 +128,9 @@ CKPT_INPUT=path/to/best.ckpt \
 bash run_inference.sh
 ```
 
-Or call the evaluator:
+**Or call the evaluator**
 
-```bash
+```
 python evaluate.py \
   --test_dir <BASE_DIR> \
   --folder_destination /path/to/output \
@@ -142,84 +142,90 @@ python evaluate.py \
 ```
 
 > `evaluate.py` writes **enhanced WAVs**.
-> If `--odesolver` is not given, it **auto-picks** (`euler_mf` when MF-SE was used; otherwise `euler`).
+>  If `--odesolver` is omitted, it **auto-selects** (`euler_mf` when MF-SE was used; otherwise `euler`).
 
----
+------
 
-## Configuration
+## 🛠️ Configuration
 
-Common flags you may want to tweak:
+Common flags to tweak:
 
-* **Time & schedule**
+- **Time & schedule** — `--T_rev` (reverse start, default 1.0), `--t_eps` (terminal time), `--sigma_min`, `--sigma_max`
+- **MF-SE stability** — `--mf_jvp_impl {auto,fd,autograd}`, `--mf_jvp_chunk`, `--mf_jvp_clip`, `--mf_jvp_eps`; curriculum: `--mf_weight_final`, `--mf_warmup_frac`, `--mf_delta_*`, `--mf_r_equals_t_prob`
+- **Validation cost** — `--val_metrics_every_n_epochs`, `--num_eval_files`
+- **Backbone & front-end** — see `flowmse/backbones/` and `SpecsDataModule`
 
-  * `--T_rev` (reverse start, default 1.0), `--t_eps` (terminal time), `--sigma_min`, `--sigma_max`
-* **MF-SE stability**
+------
 
-  * `--mf_jvp_impl {auto,fd,autograd}`, `--mf_jvp_chunk`, `--mf_jvp_clip`, `--mf_jvp_eps`
-  * Curriculum: `--mf_weight_final`, `--mf_warmup_frac`, `--mf_delta_*`, `--mf_r_equals_t_prob`
-* **Validation cost**
-
-  * `--val_metrics_every_n_epochs`, `--num_eval_files`
-* **Backbone & front-end**
-
-  * Defined in `backbones/` and `SpecsDataModule` (STFT, transforms, normalization)
-
----
-
-## Repository structure
+## 🏗️ Repository Structure
 
 ```
 MeanFlowSE/
-├── train.py                 # Lightning entry
-├── evaluate.py              # Enhancement script (WAV out)
-├── run_inference.sh         # One-step / few-step convenience runner
+├── train.py                  # Lightning entry point
+├── evaluate.py               # Enhancement script (saves WAV)
+├── run_inference.sh          # One-step / few-step convenience runner
 ├── flowmse/
-│   ├── model.py             # Losses, JVP, curriculum, logging
-│   ├── odes.py              # Path definition & registry
+│   ├── model.py              # Losses, JVP, curriculum, logging
+│   ├── odes.py               # Path definition & registry
 │   ├── sampling/
 │   │   ├── __init__.py
-│   │   └── odesolvers.py    # Euler (instantaneous) & Euler-MF (displacement)
+│   │   └── odesolvers.py     # Euler (instantaneous) & Euler-MF (displacement)
 │   ├── backbones/
-│   │   ├── ncsnpp.py        # U-Net w/ time & delta embeddings
+│   │   ├── ncsnpp.py         # U-Net with time/Δt embeddings
 │   │   └── ...
-│   ├── data_module.py       # STFT I/O pipeline
-│   └── util/                # metrics, registry, tensors, inference helpers
+│   ├── data_module.py        # STFT I/O pipeline
+│   └── util/                 # metrics, registry, tensors, inference helpers
 ├── requirements.txt
 └── scripts/
     └── train_vbd.sh
 ```
 
-## Built upon & related work
+------
 
-This repository builds upon previous great works:
+## 🧰 Pretrained Models
 
-* **SGMSE** — [https://github.com/sp-uhh/sgmse](https://github.com/sp-uhh/sgmse)
-* **SGMSE-CRP** — [https://github.com/sp-uhh/sgmse\_crp](https://github.com/sp-uhh/sgmse_crp)
-* **SGMSE-BBED** — [https://github.com/sp-uhh/sgmse-bbed](https://github.com/sp-uhh/sgmse-bbed)
-* **FLOWMSE (FlowSE)** — [https://github.com/seongq/flowmse](https://github.com/seongq/flowmse)
+- **VoiceBank–DEMAND (16 kHz)** — weights on Google Drive:
+   👉 [Download](https://drive.google.com/file/d/1QAxgd5BWrxiNi0q2qD3n1Xcv6bW0X86-/view?usp=sharing)
 
-Many design choices (complex STFT pipeline, training infrastructure) are inspired by these excellent projects.
+------
 
----
+## 📚 Built Upon & Related Work
 
-## Pretrained models
+This repository builds upon and is inspired by the following excellent works (front-end design, training/evaluation infrastructure, etc.):
 
-* **VoiceBank–DEMAND (16 kHz)**: We have hosted the weight files on Google Drive and added the link here.— [Google Drive Link](https://drive.google.com/file/d/1QAxgd5BWrxiNi0q2qD3n1Xcv6bW0X86-/view?usp=sharing)
+- **SGMSE** — https://github.com/sp-uhh/sgmse
+- **SGMSE-CRP** — https://github.com/sp-uhh/sgmse_crp
+- **SGMSE-BBED** — https://github.com/sp-uhh/sgmse-bbed
+- **FLOWMSE (FlowSE)** — https://github.com/seongq/flowmse
 
----
+------
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-We gratefully acknowledge **Prof. Xie Chen’s group (X-LANCE Lab, SJTU)** for their **valuable guidance and support** on training practices and engineering tips that helped this work a lot.
+We gratefully acknowledge **Prof. Xie Chen’s group (X-LANCE Lab, SJTU)** for valuable guidance and engineering tips during training.
 
----
+------
 
-## Citation
+## 📝 Citation
 
-* **Citation:** The paper is currently under review. We will add a BibTeX entry and article link once available.
+**Preprint**
 
----
+```
+@misc{li2025meanflowseonestepgenerativespeech,
+  title         = {MeanFlowSE: one-step generative speech enhancement via conditional mean flow},
+  author        = {Duojia Li and Shenghui Lu and Hongchen Pan and Zongyi Zhan and Qingyang Hong and Lin Li},
+  year          = {2025},
+  eprint        = {2509.14858},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.SD},
+  url           = {https://arxiv.org/abs/2509.14858}
+}
+```
 
+> **Status:** Submitted to **ICASSP 2026** (under review). We’ll add the official link and updated BibTeX upon acceptance.
+>
+> **License:** This repository is released under the **MIT License**.
 
-**Questions or issues?** Please open a GitHub issue or pull request.
-We welcome contributions — from bug fixes to new backbones and front-ends.
+------
+
+**Questions or issues?** Please open a GitHub issue or pull request. Contributions are welcome—from bug fixes to new backbones and front-ends.
