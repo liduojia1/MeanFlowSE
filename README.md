@@ -13,7 +13,7 @@
 
 ## 🎧 Demos
 
-- Online demo: **coming soon**
+- Online demo: **coming  soon**
 - See **🧰 Pretrained Models** below for ready-to-use weights
 
 ------
